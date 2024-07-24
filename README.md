@@ -97,12 +97,14 @@ query {
 ### Get last location for all devices
 ```bash
 query {
-  deviceLastLocations {
+  devicesWithLastLocations {
     id
-    lastLocationId
-    lastLocationLatitude
-    lastLocationLongitude
-    lastLocationCreatedAt
+    lastLocation {
+      id
+      latitude
+      longitude
+      createdAt
+    }
   }
 }
 ```
