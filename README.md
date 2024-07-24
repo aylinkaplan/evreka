@@ -28,3 +28,81 @@ pip install -r requirements.dev.txt
 docker-compose build
 docker-compose up
 ```
+
+### List Device
+```bash
+query {
+  devices {
+    id
+    name
+  }
+}
+```
+
+### Create Device
+```bash
+mutation{
+    createDevice(name: "Device 1"){
+    	device{
+        id
+        name
+      }
+  }
+}
+```
+
+
+### Update Device
+```bash
+mutation {
+  updateDevice(deviceId: 1, name: "Updated Device") {
+    ok
+    device {
+      id
+      name
+    }
+  }
+}
+```
+
+### Delete Device
+```bash
+mutation {
+  deleteDevice(deviceId: 1) {
+    ok
+  }
+}
+```
+
+
+### Generate location data via TCP server
+```bash
+echo '{"device_id": 1, "latitude": 42.7128, "longitude": -73.0060}' | nc localhost 65432
+```
+
+
+### List location history by device
+```bash
+query {
+  deviceLocationHistory(deviceId: 1) {
+    id
+    latitude
+    longitude
+    createdAt
+  }
+}
+```
+
+
+### Get last location for all devices
+```bash
+query {
+  deviceLastLocations {
+    id
+    lastLocationId
+    lastLocationLatitude
+    lastLocationLongitude
+    lastLocationCreatedAt
+  }
+}
+```
