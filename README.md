@@ -34,7 +34,7 @@ docker-compose up
 query {
   devices {
     id
-    name
+    externalId
   }
 }
 ```
@@ -42,10 +42,10 @@ query {
 ### Create Device
 ```bash
 mutation{
-    createDevice(name: "Device 1"){
+    createDevice(externalId: "1"){
     	device{
         id
-        name
+        externalId
       }
   }
 }
@@ -55,11 +55,11 @@ mutation{
 ### Update Device
 ```bash
 mutation {
-  updateDevice(deviceId: 1, name: "Updated Device") {
+  updateDevice(deviceId: 1, externalId: "Updated Device") {
     ok
     device {
       id
-      name
+      externalId
     }
   }
 }
@@ -77,7 +77,7 @@ mutation {
 
 ### Generate location data via TCP server
 ```bash
-echo '{"device_id": 1, "latitude": 42.7128, "longitude": -73.0060}' | nc localhost 65432
+echo '{"external_id": 1, "latitude": 42.7128, "longitude": -73.0060}' | nc localhost 65432
 ```
 
 

@@ -8,8 +8,8 @@ from device.models import Device, Location
 
 class DeviceLocationSetupTestCase(TestCase):
     def setUp(self):
-        self.device1 = Device.objects.create(name="Device 1")
-        self.device2 = Device.objects.create(name="Device 2")
+        self.device1 = Device.objects.create(external_id="External 1")
+        self.device2 = Device.objects.create(external_id="External 2")
 
         # Create locations for device1
         self.location1 = Location.objects.create(

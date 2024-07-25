@@ -51,19 +51,12 @@ class Query(graphene.ObjectType):
         return Location.objects.filter(device=device).order_by('-created_at')
 
     def resolve_devices_with_last_locations(self, info):
+        last_location = Location.objects.filter(device=OuterRef('pk')).order_by('-created_at').values('id', 'latitude', 'longitude', 'created_at')[:1]
         return Device.objects.annotate(
-            last_location_id=Subquery(
-                Location.objects.filter(device=OuterRef('pk')).order_by('-created_at').values('id')[:1]
-            ),
-            last_location_latitude=Subquery(
-                Location.objects.filter(device=OuterRef('pk')).order_by('-created_at').values('latitude')[:1]
-            ),
-            last_location_longitude=Subquery(
-                Location.objects.filter(device=OuterRef('pk')).order_by('-created_at').values('longitude')[:1]
-            ),
-            last_location_created_at=Subquery(
-                Location.objects.filter(device=OuterRef('pk')).order_by('-created_at').values('created_at')[:1]
-            )
+            last_location_id=Subquery(last_location.values('id')),
+            last_location_latitude=Subquery(last_location.values('latitude')),
+            last_location_longitude=Subquery(last_location.values('longitude')),
+            last_location_created_at=Subquery(last_location.values('created_at'))
         ).filter(
             last_location_id__isnull=False
         )
@@ -73,10 +66,10 @@ class CreateDevice(graphene.Mutation):
     device = graphene.Field(DeviceType)
 
     class Arguments:
-        name = graphene.String()
+        external_id = graphene.String()
 
-    def mutate(self, info, name):
-        device = Device(name=name)
+    def mutate(self, info, external_id):
+        device = Device(external_id=external_id)
         device.save()
         return CreateDevice(device=device)
 
@@ -87,11 +80,11 @@ class UpdateDevice(graphene.Mutation):
 
     class Arguments:
         device_id = graphene.ID()
-        name = graphene.String()
+        external_id = graphene.String()
 
-    def mutate(self, info, device_id, name):
+    def mutate(self, info, device_id, external_id):
         device = Device.objects.get(id=device_id)
-        device.name = name
+        device.external_id = external_id
         device.save()
         return UpdateDevice(ok=True, device=device)
 

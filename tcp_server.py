@@ -19,7 +19,7 @@ def start_server():
                 try:
                     location_data = json.loads(data)
                     process_location_data.delay(
-                        location_data['device_id'],
+                        location_data['external_id'],
                         location_data['latitude'],
                         location_data['longitude'],
                     )
