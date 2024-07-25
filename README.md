@@ -108,3 +108,8 @@ query {
   }
 }
 ```
+
+### Running tests
+```bash
+python manage.py test
+```

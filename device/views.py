@@ -1,8 +1,8 @@
-from django.db.models import OuterRef, Subquery, F
-from django.http import JsonResponse
+from django.db.models import OuterRef, Subquery
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
+
 from .models import Device, Location
 from .serializers import DeviceSerializer, LocationSerializer, DeviceWithLastLocationSerializer
 

@@ -1,6 +1,7 @@
 import graphene
 from django.db.models import OuterRef, Subquery
 from graphene_django import DjangoObjectType
+
 from device.models import Device, Location
 
 
